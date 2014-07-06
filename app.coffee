@@ -1,8 +1,14 @@
 PSD = Framer.Importer.load("imported/pickup")
 
-# store original frames https://medium.com/framer-js/ca55fc7cfc61
 for key, value of PSD
+  # store original frames https://medium.com/framer-js/ca55fc7cfc61
   PSD[key].originalFrame = PSD[key].frame
+  # add original State
+  PSD[key].states.add
+    leftScreen:
+      x: -1000
+    rightScreen:
+      x: 640
 
 # Change default animation
 Framer.Defaults.Animation =
@@ -19,7 +25,10 @@ PSD.phone.properties =
 switchSlide = (slideNum) ->
   switch slideNum
     when 0
-      common.originalPos PSD.slide2
+      console.log(PSD.building.states)
+      PSD.building.states.switch "default"
+      PSD.slide2.states.switch "rightScreen"
+
       # set up images
       PSD.grayside.y = 1136
       PSD.sky1.hueRotate = 50
@@ -29,6 +38,9 @@ switchSlide = (slideNum) ->
       common.originalPos PSD.grayside, 0.4
       common.originalHue PSD.sky1, 0.5
     when 1
+      PSD.slide2.states.switchInstant "default"
+      PSD.building.states.switch "leftScreen"
+
       common.fadeOut(PSD.windows)
       common.moveX(PSD.sky1, -300)
       common.moveX(PSD.slide2, 0)

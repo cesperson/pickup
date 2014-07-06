@@ -7,6 +7,14 @@
   for (key in PSD) {
     value = PSD[key];
     PSD[key].originalFrame = PSD[key].frame;
+    PSD[key].states.add({
+      leftScreen: {
+        x: -1000
+      },
+      rightScreen: {
+        x: 640
+      }
+    });
   }
 
   Framer.Defaults.Animation = {
@@ -23,7 +31,9 @@
   switchSlide = function(slideNum) {
     switch (slideNum) {
       case 0:
-        common.originalPos(PSD.slide2);
+        console.log(PSD.building.states);
+        PSD.building.states["switch"]("default");
+        PSD.slide2.states["switch"]("rightScreen");
         PSD.grayside.y = 1136;
         PSD.sky1.hueRotate = 50;
         PSD.windows.opacity = 0;
@@ -31,6 +41,8 @@
         common.originalPos(PSD.grayside, 0.4);
         return common.originalHue(PSD.sky1, 0.5);
       case 1:
+        PSD.slide2.states.switchInstant("default");
+        PSD.building.states["switch"]("leftScreen");
         common.fadeOut(PSD.windows);
         common.moveX(PSD.sky1, -300);
         common.moveX(PSD.slide2, 0);
