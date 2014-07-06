@@ -15,21 +15,36 @@ PSD.phone.properties =
   "height": 1136,
   "clip": true
 
-# Set up images
-PSD.windows.opacity = 0
-PSD.grayside.y = 1136
-PSD.sky1.hueRotate = 50
+# Set up slide positions
+switchSlide = (slideNum) ->
+  switch slideNum
+    when 0
+      common.originalPos PSD.slide2
+      # set up images
+      PSD.grayside.y = 1136
+      PSD.sky1.hueRotate = 50
+      PSD.windows.opacity = 0
 
-# Bring slide 1 elements in
-utils.fadeIn PSD.windows, 0.5
-utils.originalPos PSD.grayside, 0.4
-utils.originalHue PSD.sky1, 0.5
+      common.fadeIn PSD.windows, 0.5
+      common.originalPos PSD.grayside, 0.4
+      common.originalHue PSD.sky1, 0.5
+    when 1
+      common.fadeOut(PSD.windows)
+      common.moveX(PSD.sky1, -300)
+      common.moveX(PSD.slide2, 0)
+      PSD.sky1.animate
+        properties:
+          hueRotate: 0
 
-# Set up click
+# Set up clicks
 PSD.windows.on Events.Click, ->
-  utils.fadeOut(PSD.windows)
-  utils.moveX(PSD.sky1, -300)
-  utils.moveX(PSD.slide2, 0)
-  PSD.sky1.animate
-    properties:
-      hueRotate: 0
+  switchSlide 1
+
+PSD.slide2.on Events.Click, ->
+  switchSlide 0
+
+# Initialize by bringing first slide elements in
+switchSlide 0
+
+# Delay example
+# utils.delay(1000, switchSlide 0)
