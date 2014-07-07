@@ -31,26 +31,25 @@
   switchSlide = function(slideNum) {
     switch (slideNum) {
       case 0:
-        console.log(PSD.building.states);
         PSD.building.states["switch"]("default");
         PSD.slide2.states["switch"]("rightScreen");
+        PSD.sky1.superLayer = PSD.building;
+        PSD.sky1.placeBehind(PSD.grayside);
         PSD.grayside.y = 1136;
-        PSD.sky1.hueRotate = 50;
         PSD.windows.opacity = 0;
+        common.changeHue(PSD.sky1, 0);
         common.fadeIn(PSD.windows, 0.5);
-        common.originalPos(PSD.grayside, 0.4);
-        return common.originalHue(PSD.sky1, 0.5);
+        return common.originalPos(PSD.grayside, 0.4);
       case 1:
         PSD.slide2.states.switchInstant("default");
         PSD.building.states["switch"]("leftScreen");
+        PSD.sky1.superLayer = PSD.phone;
+        PSD.sky1.placeBehind(PSD.slide2);
+        PSD.sky1.x = 0;
         common.fadeOut(PSD.windows);
-        common.moveX(PSD.sky1, -300);
         common.moveX(PSD.slide2, 0);
-        return PSD.sky1.animate({
-          properties: {
-            hueRotate: 0
-          }
-        });
+        common.moveX(PSD.sky1, -500);
+        return common.changeHue(PSD.sky1, 50);
     }
   };
 

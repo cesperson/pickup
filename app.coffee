@@ -25,28 +25,37 @@ PSD.phone.properties =
 switchSlide = (slideNum) ->
   switch slideNum
     when 0
-      console.log(PSD.building.states)
       PSD.building.states.switch "default"
       PSD.slide2.states.switch "rightScreen"
 
-      # set up images
+      # manage sky
+      PSD.sky1.superLayer = PSD.building
+      PSD.sky1.placeBehind PSD.grayside
+
+      # set up sublayers
       PSD.grayside.y = 1136
-      PSD.sky1.hueRotate = 50
       PSD.windows.opacity = 0
 
+      # animate sublayers
+      common.changeHue PSD.sky1, 0
       common.fadeIn PSD.windows, 0.5
       common.originalPos PSD.grayside, 0.4
-      common.originalHue PSD.sky1, 0.5
+
     when 1
       PSD.slide2.states.switchInstant "default"
       PSD.building.states.switch "leftScreen"
 
+      # manage sky
+      PSD.sky1.superLayer = PSD.phone
+      PSD.sky1.placeBehind PSD.slide2
+      PSD.sky1.x = 0
+
+      # animate sublayers
       common.fadeOut(PSD.windows)
-      common.moveX(PSD.sky1, -300)
       common.moveX(PSD.slide2, 0)
-      PSD.sky1.animate
-        properties:
-          hueRotate: 0
+
+      common.moveX(PSD.sky1, -500)
+      common.changeHue(PSD.sky1, 50)
 
 # Set up clicks
 PSD.windows.on Events.Click, ->

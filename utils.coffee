@@ -25,3 +25,9 @@ window.common =
       properties:
         hueRotate: 0
       delay: delay
+  changeHue: (view, hueChange, delay) ->
+    view.animate
+      properties:
+        hueRotate: hueChange
+      delay: delay
+      time: 0.75
